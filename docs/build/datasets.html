@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Datasets &mdash; MAIIA 0.0.1 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Preprocessing" href="preprocessing.html" />
+    <link rel="prev" title="Getting Started" href="getting_started.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> MAIIA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Segmentation models:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Datasets</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#accessing-datasets">Accessing datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#defining-datasets-on-disk">Defining datasets on disk</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#defining-downloadable-datasets">Defining downloadable datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-datasets-with-models">Using Datasets with models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#recommendations">Recommendations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#converting-to-tif">Converting to TIF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tile-sizes">Tile sizes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="preprocessing.html">Preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="training.html">Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inference.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="polygonisation.html">Polygonisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="misc.html">Miscellaneous</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Main package:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="gim_cv.html">gim_cv package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">MAIIA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Datasets</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/datasets.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="datasets">
+<h1>Datasets<a class="headerlink" href="#datasets" title="Permalink to this headline"></a></h1>
+<p>The main aim of this library is to feed raster (<strong>georeferenced image</strong>) data to
+computer vision algorithms such as convolutional neural networks. At the time
+of writing this is mostly limited to semantic segmentation and offshoots thereof.</p>
+<p>In (supervised) semantic segmentation, an algorithm sees a number of <em>(image, mask)</em>
+pairs, and tries to learn how to reproduce the mask from the image.
+The image is typically a georeferenced earth observation photograph (satellite or
+aerial). The mask is itself an image representing exactly the same scene as the
+image, but where each pixel value denotes an abstract classification given to the
+corresponding pixel at the same location in the image.</p>
+<img alt="A binary segmentation dataset example" src="_images/seg1.png" />
+<p>The <code class="xref py py-mod docutils literal notranslate"><span class="pre">gim_cv.datasets</span></code> module provides classes to specify datasets comprised of
+either (image, mask) pairs (which can be used for training models), or just images
+(which can be interpreted by trained models to infer masks). The first stage of being
+able to experiment with models is then to select or define a dataset.</p>
+<div class="section" id="accessing-datasets">
+<h2>Accessing datasets<a class="headerlink" href="#accessing-datasets" title="Permalink to this headline"></a></h2>
+<p>To select a dataset, import the datasets module and list the available datasets:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="kn">import</span> <span class="nn">gim_cv.datasets</span> <span class="k">as</span> <span class="nn">datasets</span>
+<span class="o">&gt;&gt;</span> <span class="n">datasets</span><span class="o">.</span><span class="n">list_datasets</span><span class="p">(</span><span class="n">skip_missing_files</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="p">[</span><span class="s1">&#39;test_jp2_shape&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;test_tif&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;belgium_topo_1969&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;belgium_ortho_2001&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;belgium_ortho_2009&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;belgium_ortho_2015&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>We can access the Dataset object with the <code class="xref py py-func docutils literal notranslate"><span class="pre">gim_cv.datasets.get_dataset()</span></code> function as:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="n">test_tif_dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">get_dataset</span><span class="p">(</span><span class="s1">&#39;test_tif&#39;</span><span class="p">)</span>
+<span class="n">Dataset</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="n">test_tif</span><span class="p">,</span> <span class="n">spatial_resolution</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+
+<span class="o">&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">test_tif_dataset</span><span class="o">.</span><span class="n">image_paths</span><span class="p">,</span> <span class="n">test_tif_dataset</span><span class="o">.</span><span class="n">mask_paths</span><span class="p">)))</span>
+<span class="p">[(</span><span class="n">PosixPath</span><span class="p">(</span><span class="s1">&#39;/home/root/tests/resources/test_data_tif/Medellin_40cm.tif&#39;</span><span class="p">),</span>
+  <span class="n">PosixPath</span><span class="p">(</span><span class="s1">&#39;/home/root/tests/resources/test_data_tif/Medellin_ground_truth.tif&#39;</span><span class="p">))]</span>
+</pre></div>
+</div>
+<p>This dataset is part of the unit testing resources and should always be in the repository.</p>
+<p>The dataset object is comprised of a list of image files and optionally a list of corresponding
+mask files. If the latter is present, this can be used for inference and training (using the
+masks as ground truth), and if it is missing then it can only be used for inference. At the moment
+each dataset is also specified by a “tag” attribute (a unique string name) and must be assigned a
+spatial resolution (ground sampling distance) in metres.</p>
+</div>
+<div class="section" id="defining-datasets-on-disk">
+<h2>Defining datasets on disk<a class="headerlink" href="#defining-datasets-on-disk" title="Permalink to this headline"></a></h2>
+<p>You can define a dataset by pointing to the files making it up like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="n">my_ds</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="s1">&#39;my_ds&#39;</span><span class="p">,</span>
+                            <span class="n">image_paths</span> <span class="o">=</span> <span class="p">[</span>
+                                <span class="s1">&#39;./data/some_img1.tif&#39;</span><span class="p">,</span>
+                                <span class="s1">&#39;./data/some_img2.tif&#39;</span>
+                            <span class="p">],</span>
+                            <span class="n">mask_paths</span> <span class="o">=</span> <span class="p">[],</span> <span class="c1"># say this one doesn&#39;t have any ground truth</span>
+                            <span class="n">spatial_resolution</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If this is done in <code class="xref py py-mod docutils literal notranslate"><span class="pre">gim_cv.datasets</span></code>, this dataset will be available in future by importing
+the datasets module and using <code class="xref py py-func docutils literal notranslate"><span class="pre">gim_cv.datasets.get_dataset()</span></code> and supplying the tag. If done
+locally in a script, it will be usable there and not persist. You can check that the files that
+you’ve pointed to exist with the <code class="xref py py-attr docutils literal notranslate"><span class="pre">gim_cv.datasets.Dataset.all_files_exist</span></code> attribute.</p>
+<p>If both images and masks are provided, there should be one mask file per image file and these
+should correspond element-by-element.</p>
+<p>The image formats currently supported are <code class="docutils literal notranslate"><span class="pre">.tif</span></code> and <code class="docutils literal notranslate"><span class="pre">.jp2</span></code> files. <code class="docutils literal notranslate"><span class="pre">tif</span></code> is preferred
+due to the lack of compression rendering it orders of magnitude faster to read from/write to.</p>
+<p>Mask files can similarly be either of these image file formats (if the pixel masks are stored
+directly as images). A more common scenario is that the mask files are in vector format (<code class="docutils literal notranslate"><span class="pre">.shp</span></code>,
+<code class="docutils literal notranslate"><span class="pre">.gpkg</span></code>, <code class="docutils literal notranslate"><span class="pre">.geojson</span></code> etc.) and only produce rasterised pixel-level masks (at a given
+spatial resolution) at runtime as a preprocessing step. These also have the advantage of being
+much smaller than image files. Currently <code class="docutils literal notranslate"><span class="pre">.shp</span></code> is supported and the other vector formats can
+easily be converted into this.</p>
+</div>
+<div class="section" id="defining-downloadable-datasets">
+<h2>Defining downloadable datasets<a class="headerlink" href="#defining-downloadable-datasets" title="Permalink to this headline"></a></h2>
+<p>Datasets can also point to remote resources. Rather than providing <code class="docutils literal notranslate"><span class="pre">image_paths</span></code> and <code class="docutils literal notranslate"><span class="pre">mask_paths</span></code>
+arguments directly, one can implement and assign a function to the attributes <code class="docutils literal notranslate"><span class="pre">image_download_fn</span></code>,
+<code class="docutils literal notranslate"><span class="pre">mask_download_fn</span></code> or <code class="docutils literal notranslate"><span class="pre">all_download_fn</span></code>. This function is expected to download files and return
+a list of the paths to these files on disk (in the latter case, two lists).</p>
+<p>Once these attributes are assigned, the corresponding
+<code class="docutils literal notranslate"><span class="pre">Dataset</span></code> object will have access to the (asynchronous) methods <code class="docutils literal notranslate"><span class="pre">download_image_files</span></code>,
+<code class="docutils literal notranslate"><span class="pre">download_mask_files</span></code> or <code class="docutils literal notranslate"><span class="pre">download_all_files</span></code> correspondingly. These will perform the
+download of the files and set <code class="docutils literal notranslate"><span class="pre">image_paths</span></code> and <code class="docutils literal notranslate"><span class="pre">mask_paths</span></code> appropriately when complete.</p>
+<p>For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;&gt;</span> <span class="kn">from</span> <span class="nn">gim_cv.orchestration</span> <span class="kn">import</span> <span class="n">download_images_to_directory</span>
+
+<span class="o">&gt;&gt;</span> <span class="c1"># now assign this function to serve as the download method for our</span>
+<span class="o">&gt;&gt;</span> <span class="c1"># dataset, which is convenient for when the total filesize is very large</span>
+<span class="o">&gt;&gt;</span> <span class="n">my_ds</span><span class="o">.</span><span class="n">image_download_fn</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">partial</span><span class="p">(</span><span class="n">download_images_to_directory</span><span class="p">,</span>
+            <span class="n">file_urls</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;http://blabla.com/file2.tif&#39;</span><span class="p">,</span> <span class="s1">&#39;http://blabla.com/file1.tif&#39;</span><span class="p">],</span>
+            <span class="n">target_directory</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;./data/images_</span><span class="si">{</span><span class="n">my_ds</span><span class="o">.</span><span class="n">tag</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Now one can download the image files by running:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">await</span> <span class="n">my_ds</span><span class="o">.</span><span class="n">download_image_files</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>in an asynchronous context or:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">my_ds</span><span class="o">.</span><span class="n">download_image_files</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>in a synchronous one.</p>
+</div>
+<div class="section" id="using-datasets-with-models">
+<h2>Using Datasets with models<a class="headerlink" href="#using-datasets-with-models" title="Permalink to this headline"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">Dataset</span></code> objects are equipped with the methods <code class="xref py py-meth docutils literal notranslate"><span class="pre">load_training_data()</span></code>
+and <code class="xref py py-meth docutils literal notranslate"><span class="pre">load_inference_data()</span></code> which are used in conjuction with
+<a class="reference internal" href="preprocessing.html"><span class="doc">Preprocessing</span></a> pipelines to create image and mask arrays ready for training or inference.
+These will be discussed in the following sections.</p>
+</div>
+<div class="section" id="recommendations">
+<h2>Recommendations<a class="headerlink" href="#recommendations" title="Permalink to this headline"></a></h2>
+<div class="section" id="converting-to-tif">
+<h3>Converting to TIF<a class="headerlink" href="#converting-to-tif" title="Permalink to this headline"></a></h3>
+<p>It is highly recommended to use <code class="docutils literal notranslate"><span class="pre">.tif</span></code> format rasters for datasets.</p>
+<p>Conversion of <code class="docutils literal notranslate"><span class="pre">.jp2</span></code> rasters to <code class="docutils literal notranslate"><span class="pre">.tif</span></code> can be done easily with <code class="docutils literal notranslate"><span class="pre">gdal_translate</span></code>.
+This script is available in the container environment and is documented <a class="reference external" href="https://gdal.org/programs/gdal_translate.html">here</a>. However
+due to the stock JPEG2000 driver being inefficient the conversion is quite slow out of the
+box.</p>
+</div>
+<div class="section" id="tile-sizes">
+<h3>Tile sizes<a class="headerlink" href="#tile-sizes" title="Permalink to this headline"></a></h3>
+<p>Often raster datasets on which one will want to run inference will be quite large. If this is the case it is a
+good idea when defining datasets to retile large rasters into many smaller tiles as this will make inference
+more robust.</p>
+<p>For example, if inference for some reason fails midway through, almost half of the results will have already
+been written to file successfully as opposed to ending up with half of one giant potentially corrupt raster.</p>
+<p>I like to use a tile size of 5120 * 5120, as this divides 256 and 1024 (the typical training and inference
+patch sizes on a V100 GPU). On a smaller GPU like a T4 (like on an AWS g4dn instance) 5376 divides 256 and
+896 (the inference patch size which fits in VRAM on that machine). This way each tile divides exactly into
+patches that the GPU will process at inference time.</p>
+<p>Generally, this <a class="reference external" href="https://headfirst-gdal.readthedocs.io/en/latest/gdal-cheat-sheet.html">GDAL cheat sheet</a> is super useful for the different cases you might encounter of
+data wrangling.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="getting_started.html" class="btn btn-neutral float-left" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="preprocessing.html" class="btn btn-neutral float-right" title="Preprocessing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

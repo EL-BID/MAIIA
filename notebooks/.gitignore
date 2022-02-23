@@ -1,0 +1,5 @@
+# Ignore everything in this directory
+dask-worker*
+# Except this file
+!.gitignore
+!accuracy_projections

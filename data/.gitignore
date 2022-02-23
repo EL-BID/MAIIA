@@ -1,0 +1,3 @@
+./volumes/*
+# Except this file
+!.gitignore

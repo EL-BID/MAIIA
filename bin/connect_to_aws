@@ -1,0 +1,1 @@
+update_ssh_config --instance-id i-0721d9d671404a9ee --host ec2 && ssh ec2

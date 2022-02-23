@@ -1,0 +1,132 @@
+#!/usr/bin/env python
+""" update_ssh_config.py
+
+    updates your ssh config file for a given AWS EC2 instance with the
+    current public IP address, which can change if the instance is restarted
+"""
+import subprocess
+import argparse
+import regex as re
+import fileinput
+
+from pathlib import Path
+
+parser = argparse.ArgumentParser()
+
+#i-05f140e94993c1f55 # v2 instance (closed)
+parser.add_argument('--instance-id', type=str, default='i-0721d9d671404a9ee',
+                    help='the EC2 instance id (check aws2 describe-instances)')
+parser.add_argument('--host', type=str, default='ec2',
+                    help='the shortcut ec2 hostname set in the config file')
+parser.add_argument('--ssh-config', type=str, default='~/.ssh/config',
+                    help='path to the SSH config file')
+parser.add_argument(
+    '--ssh-key',
+    type=str,
+    default='~/.ssh/eo_ai_settlement.pem',
+    help='path to SSH key file'
+)
+
+args = parser.parse_args()
+
+
+# build regex pattern to isolate fields in config file
+mk_pattern = (lambda host, user, ssh_key:
+f"""Host\s(?P<host>{host})(.*|\s)+
+    Hostname\s(?P<IP>[0-9.]+)(.*|\s)+
+    User\s(?P<user>{user})(.*|\s)+
+    IdentityFile\s(?P<idf>{ssh_key})
+""")
+
+
+def get_instance_ip(instance_id:str=args.instance_id, *args, **kwargs) -> str:
+    """ Get an AWS EC2 instance's public IP address from its instance ID
+
+        Signature:
+            instance_id: the string instance id (available via CLI with:
+            `aws2 ec2 inspect-instances`)
+        Returns:
+            a string IP address
+    """
+    CMD = (f'aws2 ec2 describe-instances --instance-id {instance_id} '
+          '--query "Reservations[].Instances[].PublicIpAddress[]" --output text')
+
+    result = subprocess.run(CMD, shell=True, capture_output=True)
+    if int(result.returncode) != 0:
+        if 'command not found' in result.stderr.decode('utf-8'):
+            result = subprocess.run(CMD.replace('aws2', 'aws'),
+                                    shell=True,
+                                    capture_output=True)
+    stdout = result.stdout.decode('utf-8').rstrip('\n')
+
+    if not re.match('[0-9.]+', stdout):
+        raise ValueError("No IP address found in output string! Check `aws2 "
+                         "ec2 describe-instances` and see what's up.")
+    return stdout
+
+def update_config_ip(ip:str,
+                     ssh_config:str=args.ssh_config,
+                     host:str=args.host,
+                     ssh_key:str=args.ssh_key,
+                     verify_key:bool=True,
+                     user:str='ubuntu',
+                     pattern_fn:callable=mk_pattern,
+                     *args, **kwargs) -> None:
+    """ Update the ssh config file with the current AWS instance IP address
+
+        Signature:
+            ip: the public IP address of the instance
+            host: the name given to the host in the entry, e.g. 'ec2'
+            ssh_key: the path to the key file eg ~/keys/key.pem
+            verify_key: additionally check if key file exists and matches entry
+            user: the name of the user for the ssh login purposes
+            pattern_fn: function which makes a regex pattern for the entry
+                        with signature host, user, ssh_key
+        Returns:
+            None
+    """
+    # check the ssh config file
+    ssh_config = Path(ssh_config).expanduser()
+    if not ssh_config.exists():
+        raise ValueError(f"SSH config file {ssh_config} not found!")
+
+    if verify_key:
+        ssh_key = Path(ssh_key)
+        if not ssh_key.expanduser().exists():
+            raise ValueError(f"SSH key file {ssh_key} not found!")
+
+    ptn = mk_pattern(host, user, ssh_key)
+
+    with open(ssh_config, 'r+') as file:
+        text = file.read()
+        match = re.search(ptn, text)
+        if not match:
+            raise ValueError(f"No entry for {host} found in ssh config file!")
+        text = re.sub(match.group("IP"), ip, text)
+        if verify_key:
+            found_id = match.group("idf")
+            assert found_id in (str(ssh_key), str(ssh_key.expanduser())), (
+                f"Listed key file {found_id} does not match argument {ssh_key}")
+        file.seek(0)
+        file.write(text)
+        file.truncate()
+    print(f"File {ssh_config} written succesfully.")
+
+
+def get_and_update_ip(instance_id:str=args.instance_id,
+                      ssh_config:str=args.ssh_config,
+                      host:str=args.host,
+                      ssh_key:str=args.ssh_key,
+                      verify_key:bool=True,
+                      user:str='ubuntu',
+                      pattern_fn:callable=mk_pattern):
+    """ Chains the two routines above
+    """
+    print(f"Updating {args.ssh_config}...")
+    IP = get_instance_ip(**vars())
+    print(f"Identified IP address {IP}...")
+    update_config_ip(IP, **vars())
+
+
+if __name__ == '__main__':
+    get_and_update_ip()

@@ -1,0 +1,67 @@
+name: gim_cv_gpu
+channels:
+  - defaults
+  - conda-forge
+  - conda-forge/label/broken
+dependencies:
+  - python=3.8
+  - tensorflow-gpu
+  - matplotlib
+  - seaborn
+  - dask
+  - distributed>=2.30.1
+  - dask-image
+  - dask-ml
+  - numpy
+  - pandas
+  - scikit-learn >= 0.22
+  - sqlalchemy
+  - sqlite
+  - gdal
+  - ipykernel
+  - nb_conda_kernels
+  - flake8
+  - zarr
+  - einops
+  - regex
+  - rasterio
+  - fiona
+  - umap-learn
+  - plotly
+  - cufflinks-py
+  #- pymc3
+  - dnspython
+  - scrapy
+  - aiohttp
+  - aiofiles
+  - pytest-mock
+  - imgaug
+  - albumentations
+  - sphinx
+  - nbsphinx
+  - rioxarray
+  - geos
+  - owslib
+  - pysal
+  - geopandas
+  #- vaex
+  - geopy
+  - rtree
+  - hdbscan
+  - vine==1.3.0
+  - itemloaders
+  - pip:
+    - tensorflow-addons==0.11.2
+    - openpyxl
+    - scrapy-splash
+    - cached-property
+    - eo-learn
+    - protego
+    - keras-tuner
+    - cryptography==2.8
+    - timbermafia
+    - geocube >= 0.0.14
+    - fsspec>=0.8.4
+    - sphinx_rtd_theme
+    #- -e .
+    #- https://github.com/matplotlib/basemap/archive/v1.2.2rel.tar.gz
