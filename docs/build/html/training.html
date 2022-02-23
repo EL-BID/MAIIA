@@ -1,0 +1,547 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Training &mdash; MAIIA 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Inference" href="inference.html" />
+    <link rel="prev" title="Models" href="models.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> MAIIA
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Segmentation models:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preprocessing.html">Preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">Models</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Training</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#training-datasets">Training Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#composite-training-datasets">Composite Training Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-training-dataset-objects-from-predefined-datasets">Creating training dataset objects from predefined datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#training-script">Training script</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#comparing-trained-models">Comparing trained models</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="inference.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="polygonisation.html">Polygonisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="misc.html">Miscellaneous</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Main package:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="gim_cv.html">gim_cv package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">MAIIA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Training</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/training.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="training">
+<h1>Training<a class="headerlink" href="#training" title="Permalink to this headline">¶</a></h1>
+<p>The <code class="xref py py-mod docutils literal notranslate"><span class="pre">training</span></code> module is responsible for providing classes which
+integrate datasets, preprocessing pipelines and batch/augmentation generators
+into a simple object which can be passed directly to a <code class="docutils literal notranslate"><span class="pre">tf.keras</span></code> model’s <code class="docutils literal notranslate"><span class="pre">fit</span></code>
+method.</p>
+<p>The main classes playing this role are <code class="xref py py-class docutils literal notranslate"><span class="pre">TrainingDataset</span></code> and
+<code class="xref py py-class docutils literal notranslate"><span class="pre">CompositeTrainingDataset</span></code>. These can be used standalaone
+(by specifying which image/mask files to create from directly) or be created directly
+from a <code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code> object (comprised of RGB images and ground
+truth masks). We will cover both of these cases in turn.</p>
+<p>For the very short version, look at <a class="reference internal" href="#load-training-data"><span class="std std-ref">Creating training dataset objects from predefined datasets</span></a>.</p>
+<section id="training-datasets">
+<h2>Training Datasets<a class="headerlink" href="#training-datasets" title="Permalink to this headline">¶</a></h2>
+<p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">TrainingDataset</span></code> converts <em>one pair</em> of corresponding
+image and mask files into a set of preprocessed training/validation/testing patch
+arrays, and accepts the following main arguments:</p>
+<ul class="simple">
+<li><p>Paths to image and mask source files (ideally in <code class="docutils literal notranslate"><span class="pre">.tif</span></code> and/or <code class="docutils literal notranslate"><span class="pre">.shp</span></code> format)</p></li>
+<li><p>A function which, when called, creates a preprocessing pipeline for the images</p></li>
+<li><p>A function which, when called, creates a preprocessing pipeline for the masks</p></li>
+<li><p>A batch generator function (usually you will want <code class="xref py py-func docutils literal notranslate"><span class="pre">fancy_batch_generator()</span></code>) which
+accepts dask arrays of associated image and mask patches (the output of the preprocessing
+pipelines) and yields from these batches of (augmented) images.</p></li>
+</ul>
+<p>There are also various options for controlling training/validation/testing splits
+and pruning functions to eliminate invalid arrays (such as empty arrays with all
+white or all black pixels). See the <code class="xref py py-class docutils literal notranslate"><span class="pre">TrainingDataset</span></code>
+API documentation for more details.</p>
+<p>Once the <code class="xref py py-class docutils literal notranslate"><span class="pre">TrainingDataset</span></code> has been created, its
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">prepare()</span></code> method must be called (this will
+create an instance of the necessary preprocessing pipelines, then create the Dask
+task graph corresponding to loading the arrays from the source files and performing
+all of the preprocessing operations). Once the prepare method has been called the
+image and mask patch dask arrays will be accessible as the attributes <code class="docutils literal notranslate"><span class="pre">X</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p>
+<p>After this stage, the training dataset object will have access to the generator methods
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">batch_gen_train()</span></code>,
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">batch_gen_val()</span></code> and (optionally)
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">batch_gen_test()</span></code> which feed directly to your model.</p>
+<p>Here’s an example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">gim_cv.preprocessing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">get_image_training_pipeline</span><span class="p">,</span> <span class="n">get_binary_mask_training_pipeline</span><span class="p">,</span> <span class="c1"># default pipelines</span>
+    <span class="n">get_aug_datagen</span> <span class="c1"># basic augs</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">gim_cv.training</span> <span class="kn">import</span> <span class="n">TrainingDataset</span><span class="p">,</span> <span class="n">pair_batch_generator</span>
+
+
+<span class="c1"># get function to generate batches of images and masks for each dataset,</span>
+<span class="c1"># choosing a batch size and augmentation generator</span>
+<span class="n">batch_generator</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">pair_batch_generator</span><span class="p">,</span>
+                          <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+                          <span class="n">img_aug</span><span class="o">=</span><span class="n">get_aug_datagen</span><span class="p">(),</span> <span class="c1"># simple augs (v/h flip) for brevity</span>
+                          <span class="n">mask_aug</span><span class="o">=</span><span class="n">get_aug_datagen</span><span class="p">(),</span> <span class="c1"># simple augs (v/h flip) for brevity</span>
+                          <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">,</span>
+                          <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">tds</span> <span class="o">=</span> <span class="n">TrainingDataset</span><span class="p">(</span>
+    <span class="s1">&#39;./training_data/image_1.tif&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;./training_data/mask_1.tif&#39;</span><span class="p">,</span>
+    <span class="n">image_pipeline_factory</span><span class="o">=</span><span class="n">get_image_training_pipeline</span><span class="p">,</span>
+    <span class="n">mask_pipeline_factory</span><span class="o">=</span><span class="n">get_binary_mask_training_pipeline</span><span class="p">,</span>
+    <span class="n">batch_generator_fn</span><span class="o">=</span><span class="n">batch_generator</span><span class="p">,</span>
+<span class="p">)</span>
+
+ <span class="c1"># build preprocessing operations</span>
+ <span class="n">tds</span><span class="o">.</span><span class="n">prepare</span><span class="p">()</span> <span class="c1"># now arrays are generated as the X, y attributes</span>
+
+<span class="c1"># here you can train a model which accepts (B, h, w, C/C&#39;) image/mask arrays</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">tds</span><span class="o">.</span><span class="n">batch_gen_train</span><span class="p">(),</span>
+          <span class="n">validation_data</span><span class="o">=</span><span class="n">training_data</span><span class="o">.</span><span class="n">batch_gen_val</span><span class="p">(),</span>
+          <span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="composite-training-datasets">
+<h2>Composite Training Datasets<a class="headerlink" href="#composite-training-datasets" title="Permalink to this headline">¶</a></h2>
+<p>Most of the time you will want to train a model on multiple source image and mask
+files, from a <code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code> comprised of multiple files and/or
+from multiple <code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code> objects (for example, of different
+areas and/or the same areas over multiple years).</p>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">CompositeTrainingDataset</span></code> class is a wrapper for a set
+of individual <code class="xref py py-class docutils literal notranslate"><span class="pre">TrainingDataset</span></code> objects which includes logic
+to consolidate all the individual arrays of image/mask patches together and shuffle
+these, to prune the final large patch arrays (eliminating empty ones to speed up
+training) and to cache the shuffled and preprocessed arrays in <code class="docutils literal notranslate"><span class="pre">.zarr</span></code> format on
+disk to greatly speed up training.</p>
+<p>A composite training dataset can be created by just adding training datasets to
+each other:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tds1</span> <span class="o">=</span> <span class="n">TrainingDataset</span><span class="p">(</span>
+    <span class="s1">&#39;./training_data/image_1.tif&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;./training_data/mask_1.tif&#39;</span><span class="p">,</span>
+    <span class="n">image_pipeline_factory</span><span class="o">=</span><span class="n">get_image_training_pipeline</span><span class="p">,</span>
+    <span class="n">mask_pipeline_factory</span><span class="o">=</span><span class="n">get_binary_mask_training_pipeline</span><span class="p">,</span>
+    <span class="n">batch_generator_fn</span><span class="o">=</span><span class="n">batch_generator</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">tds2</span> <span class="o">=</span> <span class="n">TrainingDataset</span><span class="p">(</span>
+    <span class="s1">&#39;./training_data/image_2.tif&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;./training_data/mask_2.tif&#39;</span><span class="p">,</span>
+    <span class="n">image_pipeline_factory</span><span class="o">=</span><span class="n">get_image_training_pipeline</span><span class="p">,</span> <span class="c1"># these may be different to above!</span>
+    <span class="n">mask_pipeline_factory</span><span class="o">=</span><span class="n">get_binary_mask_training_pipeline</span><span class="p">,</span>
+    <span class="n">batch_generator_fn</span><span class="o">=</span><span class="n">batch_generator</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># create a CompositeTrainingDataset by adding together as many TrainingDatasets as you like</span>
+<span class="n">tds</span> <span class="o">=</span> <span class="n">tds1</span> <span class="o">+</span> <span class="n">tds2</span>
+
+<span class="c1"># create full arrays</span>
+<span class="n">tds</span><span class="o">.</span><span class="n">prepare</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>A list of the constituent <code class="xref py py-class docutils literal notranslate"><span class="pre">TrainingDataset</span></code> objects are then available
+via the <code class="docutils literal notranslate"><span class="pre">constituents</span></code> attribute.</p>
+<p>Like training datasets, composite training datasets have a
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">prepare()</span></code> method which is responsible for
+first delegating to the constituents’ <code class="docutils literal notranslate"><span class="pre">prepare</span></code> methods (to queue up loading and
+preprocessing patches from each pair of files) and then performing concatenation, shuffling
+and chunk optimisation to produce the combined image and mask arrays.</p>
+<p>Caching/loading/deleting of the combined arrays in <code class="docutils literal notranslate"><span class="pre">.zarr</span></code> format is performed through the
+methods <code class="xref py py-meth docutils literal notranslate"><span class="pre">save_prepared_arrays()</span></code>,
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">load_prepared_arrays()</span></code> and
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">delete_prepared_arrays()</span></code> methods. The directory
+in which these cached arrays are stored can be fixed by first setting the
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">cache_directory</span></code> attribute. The dask arrays
+for <code class="docutils literal notranslate"><span class="pre">X</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> will now point to the cached preprocessed version which is much faster
+to read from:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># set the zarr cache directory</span>
+<span class="n">tds</span><span class="o">.</span><span class="n">cache_directory</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">proc_data_path</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;my_combined_dataset&quot;</span><span class="p">)</span>
+<span class="c1"># save the arrays</span>
+<span class="n">tds</span><span class="o">.</span><span class="n">save_prepared_arrays</span><span class="p">()</span> <span class="c1"># tds.X, tds.y will now point to the cache on disk</span>
+</pre></div>
+</div>
+<p>Once arrays are cached for a given set of training datasets, you can just load them directly:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># next time</span>
+<span class="n">tds</span> <span class="o">=</span> <span class="n">tds1</span> <span class="o">+</span> <span class="n">tds2</span>
+<span class="c1"># skip prepare, just load directly</span>
+<span class="n">tds</span><span class="o">.</span><span class="n">load_prepared_arrays</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>You can combine the save/load logic in a script by doing something like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tds</span><span class="o">.</span><span class="n">cache_directory</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">proc_data_path</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;my_combined_dataset&quot;</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">tds</span><span class="o">.</span><span class="n">load_prepared_arrays</span><span class="p">()</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using training data arrays cached at: </span><span class="si">{</span><span class="n">tds</span><span class="o">.</span><span class="n">cache_directory</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">FileNotFoundError</span><span class="p">,</span> <span class="ne">KeyError</span><span class="p">)</span> <span class="k">as</span> <span class="n">v</span><span class="p">:</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;No cached training arrays found. Generating them...&quot;</span><span class="p">)</span>
+    <span class="n">tds</span><span class="o">.</span><span class="n">prepare</span><span class="p">()</span>
+    <span class="n">tds</span><span class="o">.</span><span class="n">save_prepared_arrays</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>A composite training dataset must be assigned a batch generator function (like an
+individual training dataset) to produce batches from the monolithic image/mask arrays.
+Here’s an example of using the <code class="xref py py-func docutils literal notranslate"><span class="pre">strong_aug()</span></code> function
+(Albumentations augmentations) with <code class="xref py py-class docutils literal notranslate"><span class="pre">FancyPCA</span></code> enabled:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">dask.distributed</span> <span class="kn">import</span> <span class="n">Client</span>
+<span class="kn">from</span> <span class="nn">gim_cv.training</span> <span class="kn">import</span> <span class="n">fancy_batch_generator</span>
+<span class="kn">from</span> <span class="nn">gim_cv.preprocessing</span> <span class="kn">import</span> <span class="n">FancyPCA</span><span class="p">,</span> <span class="n">strong_aug</span>
+
+<span class="c1"># create dataset and prepare/load full arrays from cache...</span>
+
+<span class="c1"># create dask client to parallelise augmentations</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="c1"># calculate FancyPCA colour axes from the data</span>
+<span class="n">fpca</span> <span class="o">=</span> <span class="n">FancyPCA</span><span class="p">(</span><span class="n">tds</span><span class="o">.</span><span class="n">X_train</span><span class="p">,</span> <span class="n">alpha_std</span><span class="o">=.</span><span class="mi">3</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="c1"># create the augmentation transformer</span>
+<span class="n">augger</span> <span class="o">=</span> <span class="n">strong_aug</span><span class="p">(</span><span class="n">p</span><span class="o">=.</span><span class="mi">8</span><span class="p">,</span> <span class="n">fancy_pca</span><span class="o">=</span><span class="n">fpca</span><span class="p">)</span>
+<span class="c1"># assign a batch generator using these</span>
+<span class="n">tds</span><span class="o">.</span><span class="n">batch_generator_fn</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span>
+    <span class="n">fancy_batch_generator</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+    <span class="n">augger</span><span class="o">=</span><span class="n">augger</span><span class="p">,</span>
+    <span class="n">client</span><span class="o">=</span><span class="n">client</span><span class="p">,</span>
+    <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">,</span>
+    <span class="n">shuffle_blocks_every_epoch</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">shuffle_within_blocks</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">float32</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Now a model can be trained in the usual way:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">tds</span><span class="o">.</span><span class="n">batch_gen_train</span><span class="p">(),</span>
+          <span class="n">validation_data</span><span class="o">=</span><span class="n">training_data</span><span class="o">.</span><span class="n">batch_gen_val</span><span class="p">(),</span>
+          <span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="creating-training-dataset-objects-from-predefined-datasets">
+<span id="load-training-data"></span><h2>Creating training dataset objects from predefined datasets<a class="headerlink" href="#creating-training-dataset-objects-from-predefined-datasets" title="Permalink to this headline">¶</a></h2>
+<p>You can create a <code class="xref py py-class docutils literal notranslate"><span class="pre">CompositeTrainingDataset</span></code> directly from a
+<code class="xref py py-class docutils literal notranslate"><span class="pre">gim_cv.datasets.Dataset</span></code> object using the <code class="xref py py-meth docutils literal notranslate"><span class="pre">gim_cv.datasets.Dataset.load_training_data()</span></code>
+method. This will construct a <code class="xref py py-class docutils literal notranslate"><span class="pre">TrainingDataset</span></code> from each image
+/ mask pair defined in the <code class="xref py py-class docutils literal notranslate"><span class="pre">gim_cv.datasets.Dataset</span></code>’s <code class="docutils literal notranslate"><span class="pre">image_paths</span></code> and <code class="docutils literal notranslate"><span class="pre">mask_paths</span></code>
+attributes, combine these and return a <code class="xref py py-class docutils literal notranslate"><span class="pre">CompositeTrainingDataset</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">gim_cv.datasets</span> <span class="kn">import</span> <span class="n">get_dataset</span>
+
+<span class="c1"># select some datasets</span>
+<span class="n">ds_inr</span> <span class="o">=</span> <span class="n">get_dataset</span><span class="p">(</span><span class="s1">&#39;phil_man_14_50cm&#39;</span><span class="p">)</span>
+<span class="n">ds_pot</span> <span class="o">=</span> <span class="n">get_dataset</span><span class="p">(</span><span class="s1">&#39;viet_hcm_20_50cm&#39;</span><span class="p">)</span>
+
+<span class="c1"># create a CompositeTrainingDataset from all of the image/mask files present for each</span>
+<span class="n">tds_in</span> <span class="o">=</span> <span class="n">ds_in</span><span class="o">.</span><span class="n">load_training_data</span><span class="p">(</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">train_val_test_split</span><span class="o">=</span><span class="p">(</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">tds_pot</span> <span class="o">=</span> <span class="n">ds_pot</span><span class="o">.</span><span class="n">load_training_data</span><span class="p">(</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">train_val_test_split</span><span class="o">=</span><span class="p">(</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="c1"># combine these</span>
+<span class="n">tds_all</span> <span class="o">=</span> <span class="n">tds_in</span> <span class="o">+</span> <span class="n">tds_pot</span>
+<span class="c1"># build image and mask dask arrays tds_all.X and tds_all.y...</span>
+<span class="n">tds_all</span><span class="o">.</span><span class="n">prepare</span><span class="p">()</span>
+<span class="c1"># set batch generator function, train model etc...</span>
+</pre></div>
+</div>
+<p>The <code class="xref py py-meth docutils literal notranslate"><span class="pre">gim_cv.datasets.Dataset.load_training_data()</span></code> method will use the default pipelines for
+each dataset (see <a class="reference internal" href="preprocessing.html"><span class="doc">Preprocessing</span></a> documentation) by default but has arguments which
+allow these to be overridden. See the detailed API documentation for more details.</p>
+</section>
+<section id="training-script">
+<h2>Training script<a class="headerlink" href="#training-script" title="Permalink to this headline">¶</a></h2>
+<p>For a fully-fledged training script using the <code class="docutils literal notranslate"><span class="pre">Segmentalist</span></code> model with
+datasets predefined in the <code class="xref py py-mod docutils literal notranslate"><span class="pre">gim_cv.datasets</span></code> module, you can check out the
+documentation, comments and help string for <code class="docutils literal notranslate"><span class="pre">bin/train_segmentalist.py</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python train_segmentalist.py --help
+</pre></div>
+</div>
+<p>This allows one to select any set of datasets defined in the datasets module, and use
+these to train a <code class="docutils literal notranslate"><span class="pre">Segmentalist</span></code> model with configurable hyperparameters and architectural
+features. It also saves the model weights and associated run parameters to disk for later
+analysis and comparison.</p>
+<p>The script also has an option for Stochastic Weight Averaging (see
+<a class="reference external" href="http://arxiv.org/abs/1803.05407">Averaging Weights Leads to Wider Optima and Better Generalization (Izmailov et al. 2018)</a>).</p>
+<p>For example, to train a model on the datasets <code class="docutils literal notranslate"><span class="pre">manilla2014</span></code> and <code class="docutils literal notranslate"><span class="pre">ho-chi-minh2020</span></code> resampled (if appropriate)
+to 0.3m spatial resolution, and with spatial attention gates, deep supervision and pyramid pooling
+enabled, with overlapping patches and the tversky loss function for 80 epochs, in the container
+environment in the <code class="docutils literal notranslate"><span class="pre">bin</span></code> directory run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python train_segmentalist.py -d phil_man_14_50cm,viet_hcm_20_50cm -tsr 0.5 -sag -ds -pp -ot -l tversky_loss -ep 80
+</pre></div>
+</div>
+<p>The script will create a unique directory containing a <code class="docutils literal notranslate"><span class="pre">.yml</span></code> file with all the parameters
+passed to the script (so all model hyperparameters, datasets etc). As the model completes
+epochs of training, the weights will also be stored in this directory for future use. These
+directories are created by default within:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cfg</span><span class="o">.</span><span class="n">models_path</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;ebs_trained_models&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>and can be read programmatically to compare results between different runs (see the next section).</p>
+</section>
+<section id="comparing-trained-models">
+<span id="id1"></span><h2>Comparing trained models<a class="headerlink" href="#comparing-trained-models" title="Permalink to this headline">¶</a></h2>
+<p>The codebase contains utilities for parsing the directories created by the training script
+described in the previous section and loading the weights based on checkpoint loss values or
+any other criteria.</p>
+<p>Since this is tied to a particular model and the implementation of the existing training
+script, it is not part of the library code and thus lives next to the training script
+in <code class="docutils literal notranslate"><span class="pre">gim-cv/bin/utils.py</span></code>.</p>
+<p>Selecting a good model by some criteria is obviously required when running inference.
+The function <code class="xref py py-func docutils literal notranslate"><span class="pre">bin.utils.collate_run_data()</span></code> builds a pandas dataframe containing all
+the best model checkpoints created by each run of the training script along with the
+associated run parameters.</p>
+<p>Here is an example of how to achieve that using the directories created by the current
+training script:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="c1"># point to the bin directory i.e. where &quot;train_segmentalist.py&quot; and the</span>
+<span class="c1"># associated &quot;utils.py&quot; are</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;../../bin&#39;</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">gim_cv.config</span> <span class="k">as</span> <span class="nn">cfg</span>
+<span class="kn">from</span> <span class="nn">gim_cv.models.segmentalist</span> <span class="kn">import</span> <span class="n">Segmentalist</span>
+
+<span class="c1"># load all the directories created by the training script in models_dir and put the run data into a pandas dataframe</span>
+<span class="n">df_segm_trained</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">collate_run_data</span><span class="p">(</span>
+    <span class="n">models_dir</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">models_volume_path</span><span class="p">,</span> <span class="c1"># this should match the &quot;models_dir&quot; arg used in train_segmentalist.py</span>
+    <span class="n">model_name</span><span class="o">=</span><span class="s1">&#39;Segmentalist&#39;</span> <span class="c1"># this will search for run data saved in directories beginning &quot;Segmentalist&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># sort by validation loss and pick the best row for a given loss function and training data used</span>
+<span class="c1"># let&#39;s say weighted binary cross entropy and imagery of Manilla AOI 4 + Manilla AOI 5.</span>
+<span class="c1"># you can also add other conditions to the query, for example &#39;deep_supervision == False&#39;</span>
+<span class="n">df_sorted</span> <span class="o">=</span> <span class="n">df_segm_trained</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;lowest_val_loss&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="s1">&#39;datasets == &quot;phil_man_14_50cm_04,phil_man_14_50cm_05&quot; and loss_fn == &quot;wbce_adaptive&quot;&#39;</span>
+<span class="p">)</span>
+<span class="n">best_row</span> <span class="o">=</span> <span class="n">df_sorted</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># load the best model using the saved weights corresponding to the lowest validation loss</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Segmentalist</span><span class="o">.</span><span class="n">load_from_metadata</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="n">best_row</span><span class="p">)</span>
+
+<span class="c1"># you can load the validation or testing data used during training to get a feel for performance</span>
+<span class="n">X_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">X0_val</span><span class="p">)</span>
+<span class="c1"># run inference on first batch of validation data to visualise results</span>
+<span class="n">y_val_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X_val</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="mf">255.</span><span class="p">)</span>
+
+<span class="c1"># now do inference, etc...</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="inference.html" class="btn btn-neutral float-right" title="Inference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="models.html" class="btn btn-neutral float-left" title="Models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

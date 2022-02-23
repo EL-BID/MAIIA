@@ -1,0 +1,86 @@
+# root dir
+project_dir     : &PROJECT_DIR /home/root
+# log level
+log_level : DEBUG
+# main data folder containing the folder listed in next paramters*/
+data_path       : &DATA_PATH !join [*PROJECT_DIR, /data]
+logs_path       : !join [*PROJECT_DIR, /logs]
+raw_data_path   : &RAW_DATA_PATH !join [*DATA_PATH, /local/raw]
+int_data_path   : &INT_DATA_PATH !join [*DATA_PATH, /local/intermediate]
+proc_data_path  : !join [*DATA_PATH, /processed]
+volumes_data_path : &VOLUMES_DATA_PATH !join [*DATA_PATH, /volumes]
+# for example, point to EBS storage volume for data/output
+output_path : &OUTPUT_PATH !join [*VOLUMES_DATA_PATH, /ebs_inference_storage]
+# training data
+training_data_path : &TRAINING_DATA_PATH !join [*VOLUMES_DATA_PATH, /datasets]
+processed_training_data_path : !join [*TRAINING_DATA_PATH, /processed]
+# trained models
+models_path : !join [*PROJECT_DIR, /MODELS] # &MODELS_PATH !join [*PROJECT_DIR, /saved_models]
+models_volume_path : !join [*PROJECT_DIR, /MODELS] # !join [*MODELS_PATH, /ebs_trained_models]
+#output_path : &OUTPUT_PATH !join [*PROJECT_DIR, /output]
+# directories to save downloaded images
+input_raster_download_dir : !join [*OUTPUT_PATH, /input_rasters]
+# directories to save final output rasters
+output_image_raster_dir : !join [*OUTPUT_PATH, /output_rasters]
+output_binary_mask_raster_dir : !join [*OUTPUT_PATH, /binary_mask_rasters]
+output_labelled_mask_raster_dir : !join [*OUTPUT_PATH, /labelled_mask_rasters]
+# sqlite database for ortho metadata
+sqlite_db_path : !join [*DATA_PATH, /local/orthos.db]
+# testing
+tests_path       : &TESTS_PATH !join [*PROJECT_DIR, /tests]
+test_resources_path : !join [*TESTS_PATH, /resources]
+test_data_jp2_path : &TEST_JP2_PATH !join [*TESTS_PATH, /resources/test_data_jp2]
+test_data_tif_path : &TEST_TIF_PATH !join [*TESTS_PATH, /resources/test_data_tif]
+train_data_tif_path : &TRAIN_DATA_TIF_PATH !join [*PROJECT_DIR, /TRAIN] # !join [*TESTS_PATH, /resources/train_data_tif]
+infer_data_tif_path : !join [*PROJECT_DIR, /INFER] # &INFER_DATA_TIF_PATH !join [*TESTS_PATH, /resources/infer_data_tif]
+predictions_data_tif_path : !join [*PROJECT_DIR, /PREDICTIONS] # &PREDICTIONS_DATA_TIF_PATH !join [*TESTS_PATH, /resources/predictions_tif]
+train_data_tif_raster : !join [*TRAIN_DATA_TIF_PATH, /rasters]
+train_data_tif_mask : !join [*TRAIN_DATA_TIF_PATH, /masks]
+test_tif_raster : !join [*TEST_TIF_PATH, /Medellin_40cm.tif]
+test_tif_mask : !join [*TEST_TIF_PATH, /Medellin_ground_truth.tif]
+test_jp2_raster : !join [*TEST_JP2_PATH, /images/OMWRGB15VL_K145z_1_2.jp2]
+test_shp_mask : !join [*TEST_JP2_PATH, /shapes/buildings.shp]
+# seed : seed for feature extraction
+seed            : 42
+## -------------------------------
+#test_path : folder containing the data to classify
+# is this missing?
+# default packages used to read raster/shape files
+jp2_reader      : rasterio
+shp_reader      : ogr
+tif_reader      : rasterio
+# default packages used to write raster/shape files
+jp2_writer      : rasterio
+tif_writer      : rasterio
+# default file format to write out mask to
+mask_write_format     : tif
+#true
+# default dask array chunk size (1024 * 5)
+da_chunk_size   : 5120
+# hyperparameter business
+# think about configuring this here
+
+### array caching stuff (speeds up training/testing at the cost of disk space) -----
+# master switches to toggle zarr array caching for input/output rasters
+# leaving these on uses disk space, but the arrays only have to be
+# extracted and serialised once from the rasters. tif is fast anyway so not recommended.
+cache_input_image_arrays         : false
+cache_input_binary_mask_arrays   : false
+cache_input_labelled_mask_arrays : false
+cache_output_binary_mask_arrays   : false
+cache_output_labelled_mask_arrays : false
+# aside: we shouldn't even generate output RGB images.
+cache_output_image_arrays        : false
+# additional switches to optionally give enable/disable array caching for specific
+# raster file formats. applied as logical ANDs with master toggles above
+cache_jp2        : false
+cache_shp        : false
+cache_tif        : false
+# directories to save arrays extracted from input data rasters (serialised for speed)
+input_image_array_dir : !join [*INT_DATA_PATH, /image_arrays]
+input_binary_mask_array_dir : !join [*INT_DATA_PATH, /binary_mask_arrays]
+input_labelled_mask_array_dir : !join [*INT_DATA_PATH, /labelled_mask_arrays]
+# directories to save arrays generated from processing input data
+output_image_array_dir : !join [*OUTPUT_PATH, /image_arrays]
+output_binary_mask_array_dir : !join [*OUTPUT_PATH, /binary_mask_arrays]
+output_labelled_mask_array_dir : !join [*OUTPUT_PATH, /labelled_mask_arrays]

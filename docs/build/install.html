@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Installation &mdash; MAIIA 0.0.1 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Getting Started" href="getting_started.html" />
+    <link rel="prev" title="Welcome to GIMs Deep Learning pipeline for informal settlement detection!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> MAIIA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Segmentation models:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#docker-installation-instructions">Docker installation instructions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#setting-nvidia-runtime-as-default">Setting NVIDIA runtime as default</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#linking-disk-volumes">Linking disk volumes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build-docker-image-containing-the-code-and-dependencies">Build docker image containing the code and dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#create-a-container-from-the-image-and-launch-it">Create a container from the image and launch it</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#optional-disable-firewall-in-case-of-problems-on-centos">Optional - disable firewall (in case of problems on CentOS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#attach-to-the-container">Attach to the container</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#testing-your-installation">Testing your installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preprocessing.html">Preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="training.html">Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inference.html">Inference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="polygonisation.html">Polygonisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="misc.html">Miscellaneous</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Main package:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="gim_cv.html">gim_cv package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">MAIIA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Installation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/install.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline"></a></h2>
+<p>The codebase takes the form of a python library, <code class="docutils literal notranslate"><span class="pre">gim_cv</span></code>, embedded in a docker
+container together with various scripts (and jupyter notebooks) which cover common
+use cases such as training a segmentation model and running inference with a trained
+model to create segmented rasters.</p>
+<p>Installation boils down to correctly configuring the <code class="docutils literal notranslate"><span class="pre">docker-compose.yml</span></code> file to
+perform any mapping of volumes to be used (where data and models live), then
+spinning up the docker container and entering the anaconda environment therein.</p>
+<p>The source code on the host machine is mirrored into the container environment, so that
+you may edit the source in either (for example, in a text editor on your host machine,
+or when attached to a remote jupyter notebook session running in the container itself).</p>
+<p>The codebase has been developed to run on a Linux OS, and possibly (hopefully!) on
+WSL v2 with nvidia/docker support.</p>
+</div>
+<div class="section" id="docker-installation-instructions">
+<h2>Docker installation instructions<a class="headerlink" href="#docker-installation-instructions" title="Permalink to this headline"></a></h2>
+<p>Prerequisites are to install <a class="reference external" href="https://docs.docker.com/engine/install/ubuntu/#installation-methods">docker</a> and <a class="reference external" href="https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html">nvidia-docker</a> (to allow use of the GPU in
+the container). Follow the instructions at these links first and test that they work
+according to the documentation.</p>
+<div class="section" id="setting-nvidia-runtime-as-default">
+<h3>Setting NVIDIA runtime as default<a class="headerlink" href="#setting-nvidia-runtime-as-default" title="Permalink to this headline"></a></h3>
+<p>To ensure that your docker containers can access the GPU by default, edit/create the file
+<code class="docutils literal notranslate"><span class="pre">/etc/docker/daemon.json</span></code> so that it looks like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;default-runtime&quot;</span><span class="p">:</span> <span class="s2">&quot;nvidia&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;runtimes&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;nvidia&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="s2">&quot;nvidia-container-runtime&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;runtimeArgs&quot;</span><span class="p">:</span> <span class="p">[]</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>If this is the first time you edit this file on your machine, restart the docker
+service now to make sure this takes effect:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo systemctl restart docker.service
+</pre></div>
+</div>
+</div>
+<div class="section" id="linking-disk-volumes">
+<h3>Linking disk volumes<a class="headerlink" href="#linking-disk-volumes" title="Permalink to this headline"></a></h3>
+<p>Before creating the docker container, first check the <code class="docutils literal notranslate"><span class="pre">volumes</span></code> entry of <code class="docutils literal notranslate"><span class="pre">docker-compose.yml</span></code>.
+If you intend to use/create disk-space-heavy resources (usually the case!) you will want to
+make sure you have the appropriate disk volumes linked to the container environment. Typically
+these will be volumes used for storing datasets and for storing models.</p>
+<p>Suppose you have two disks (or EBS volumes).
+Let’s assume these correspond to <code class="docutils literal notranslate"><span class="pre">models</span></code> and <code class="docutils literal notranslate"><span class="pre">datasets</span></code>. These might also be
+different directories of the same drive. You can look at the drive device paths by running
+<code class="docutils literal notranslate"><span class="pre">lsblk</span></code> on the command line.</p>
+<p>The default directories where datasets and models are looked for (according to <code class="docutils literal notranslate"><span class="pre">config.yml</span></code>) are
+currently <code class="docutils literal notranslate"><span class="pre">/gim-cv/data/volumes/datasets</span></code> and <code class="docutils literal notranslate"><span class="pre">/gim-cv/saved_models/ebs_trained_models</span></code>.</p>
+<p>There are two different ways to mirroring the drives:</p>
+<ul>
+<li><p class="first">Mount the volumes at the appropriate locations within the project repository
+before launching the container. Say the relevant drive partitions are at
+<code class="docutils literal notranslate"><span class="pre">/dev/nvme1n1p1</span></code> for datasets and <code class="docutils literal notranslate"><span class="pre">/dev/nvme2n1p1</span></code> for models.
+The binding will then be taken care of by the <code class="docutils literal notranslate"><span class="pre">.:/home/root</span></code> directive in <code class="docutils literal notranslate"><span class="pre">docker-compose.yml</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo mount /dev/nvme1n1p1 /path/to/gim_cv/data/volumes/datasets
+$ sudo mount /dev/nvme2n1p1 /path/to/gim_cv/saved_models/ebs_trained_models
+</pre></div>
+</div>
+</li>
+<li><p class="first">Mount the volume first on the host machine at, say, <code class="docutils literal notranslate"><span class="pre">/mnt/bigdata/</span></code>. Now map the volumes
+directly in <code class="docutils literal notranslate"><span class="pre">docker-compose.yml</span></code>. You will want to add to the <code class="docutils literal notranslate"><span class="pre">volumes</span></code> entry
+something like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="nb">type</span><span class="p">:</span> <span class="n">bind</span>
+  <span class="n">source</span><span class="p">:</span> <span class="o">/</span><span class="n">mnt</span><span class="o">/</span><span class="n">models</span>
+  <span class="n">target</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">saved_models</span><span class="o">/</span><span class="n">ebs_trained_models</span>
+<span class="o">-</span> <span class="nb">type</span><span class="p">:</span> <span class="n">bind</span>
+  <span class="n">source</span><span class="p">:</span> <span class="o">/</span><span class="n">mnt</span><span class="o">/</span><span class="n">datasets</span>
+  <span class="n">target</span><span class="p">:</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">volumes</span><span class="o">/</span><span class="n">datasets</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>These default directories can be changed as you see fit through <a class="reference internal" href="getting_started.html#configuration"><span class="std std-ref">Configuration</span></a>.</p>
+<p>Once the container is running (see the following section) you should check that the files
+you are expecting to be there are appearing where you have mapped them. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ docker exec -ti gim_cv_container /bin/bash
+$ ls /home/root/saved_models/bigdata_models
+</pre></div>
+</div>
+<p>If these are not present, you have done something wrong.</p>
+<p><em>Bear in mind when working across multiple machines that these data drives may follow a different
+structure. It makes sense then to add ``docker-compose.yml`` to ``.gitignore`` and maintain separate
+versions (differing in the ``volumes`` section) for each machine.</em></p>
+</div>
+<div class="section" id="build-docker-image-containing-the-code-and-dependencies">
+<h3>Build docker image containing the code and dependencies<a class="headerlink" href="#build-docker-image-containing-the-code-and-dependencies" title="Permalink to this headline"></a></h3>
+<p>Now use <code class="docutils literal notranslate"><span class="pre">docker-compose</span></code> to build the image specified in <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>. This creates an
+image called <code class="docutils literal notranslate"><span class="pre">gim_cv</span></code>, installs geospatial libraries like GDAL on the OS image, installs
+Anaconda, copies the source code of this repository into the image and finally builds the
+python enviornment.</p>
+<p>From the root of the <code class="docutils literal notranslate"><span class="pre">gim_cv</span></code> repository, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span><span class="o">-</span><span class="n">compose</span> <span class="n">up</span> <span class="o">-</span><span class="n">d</span>
+</pre></div>
+</div>
+<p>If you run into an error like <code class="docutils literal notranslate"><span class="pre">Couldn't</span> <span class="pre">connect</span> <span class="pre">to</span> <span class="pre">docker</span> <span class="pre">daemon</span></code>, do the
+following and try again:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">systemctl</span> <span class="n">unmask</span> <span class="n">docker</span>
+<span class="n">sudo</span> <span class="n">systemctl</span> <span class="n">start</span> <span class="n">docker</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="create-a-container-from-the-image-and-launch-it">
+<h3>Create a container from the image and launch it<a class="headerlink" href="#create-a-container-from-the-image-and-launch-it" title="Permalink to this headline"></a></h3>
+<p>Once you’ve run <code class="docutils literal notranslate"><span class="pre">docker-compose</span> <span class="pre">up</span> <span class="pre">-d</span></code>, a specific instance of this image
+(a container) called <code class="docutils literal notranslate"><span class="pre">gim_cv_container</span></code> is created, with the specifics configured
+as in <code class="docutils literal notranslate"><span class="pre">docker-compose.yml</span></code> (port-forwarding, volume mirroring with the host OS etc.).</p>
+<p>Check that your container is up and running by running <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">ps</span></code>. You should see
+something like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CONTAINER</span> <span class="n">ID</span>        <span class="n">IMAGE</span>               <span class="n">COMMAND</span>               <span class="n">CREATED</span>             <span class="n">STATUS</span>              <span class="n">PORTS</span>                    <span class="n">NAMES</span>
+<span class="mi">44315329363</span><span class="n">a</span>        <span class="n">gim_cv</span>        <span class="s2">&quot;tail -f /dev/null&quot;</span>   <span class="mi">29</span> <span class="n">seconds</span> <span class="n">ago</span>      <span class="n">Up</span> <span class="mi">19</span> <span class="n">seconds</span>       <span class="mf">0.0.0.0</span><span class="p">:</span><span class="mi">8888</span><span class="o">-&gt;</span><span class="mi">8888</span><span class="o">/</span><span class="n">tcp</span>   <span class="n">gim_cv_container</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="optional-disable-firewall-in-case-of-problems-on-centos">
+<h3>Optional - disable firewall (in case of problems on CentOS)<a class="headerlink" href="#optional-disable-firewall-in-case-of-problems-on-centos" title="Permalink to this headline"></a></h3>
+<p>If, on Linux, you run into the issue that the containers have no internet
+(eg apt update fails), do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo systemctl disable firewalld
+$ systemctl stop docker
+$ systemctl start docker
+</pre></div>
+</div>
+</div>
+<div class="section" id="attach-to-the-container">
+<h3>Attach to the container<a class="headerlink" href="#attach-to-the-container" title="Permalink to this headline"></a></h3>
+<p>Now attach to the container to run code in the environment. It’s recommended to do this
+in a <a class="reference external" href="https://linuxize.com/post/getting-started-with-tmux/">tmux</a> session so that you can run things in the background by detaching
+if you desire:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ docker exec -it gim_cv_container /bin/bash
+</pre></div>
+</div>
+<p>Finally enter the python environment:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ conda activate gim_cv_gpu
+</pre></div>
+</div>
+<p>and install <code class="docutils literal notranslate"><span class="pre">gim_cv</span></code> as a local python package in editable mode with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install -e .
+</pre></div>
+</div>
+<p>Press ctrl+D or type ‘exit’ to exit.</p>
+<p>Note that if you shut down the container with <code class="docutils literal notranslate"><span class="pre">docker-compose</span> <span class="pre">down</span></code>, you will have
+to repeat this last step of installing the local package the next time you recreate it.</p>
+</div>
+</div>
+<div class="section" id="testing-your-installation">
+<h2>Testing your installation<a class="headerlink" href="#testing-your-installation" title="Permalink to this headline"></a></h2>
+<p>Here are some quick checks you can do to see that things are working.</p>
+<blockquote>
+<div><ul>
+<li><p class="first">Check that the GPU is accessible from the python interpreter:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="k">assert</span> <span class="n">tf</span><span class="o">.</span><span class="n">test</span><span class="o">.</span><span class="n">is_gpu_available</span><span class="p">()</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Import the gim_cv module:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">gim_cv</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Check that any mountpoints contain the expected files (after you have done
+<a class="reference internal" href="getting_started.html#configuration"><span class="std std-ref">Configuration</span></a>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">gim_cv.config</span> <span class="k">as</span> <span class="nn">cfg</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">models_path</span><span class="p">)</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">)))</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Run pytest and check that the tests pass. In <code class="docutils literal notranslate"><span class="pre">/home/root/</span></code>, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pytest tests
+</pre></div>
+</div>
+</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="notes">
+<h2>Notes<a class="headerlink" href="#notes" title="Permalink to this headline"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">docker-compose.yml</span></code> file also creates a <a class="reference external" href="https://splash.readthedocs.io/en/stable/api.html">Splash</a> container which
+runs a splash server in the background. This is useful for webscraping
+interactive websites (as is done in <code class="xref py py-mod docutils literal notranslate"><span class="pre">gim_cv.scrapers.vl_orthos</span></code>
+for obtaining Flemish orthophoto download links). This has not been used
+in a while and most likely you will not need it.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to GIMs Deep Learning pipeline for informal settlement detection!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="getting_started.html" class="btn btn-neutral float-right" title="Getting Started" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inference &mdash; MAIIA 0.0.1 documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Polygonisation" href="polygonisation.html" />
+    <link rel="prev" title="Training" href="training.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> MAIIA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Segmentation models:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datasets.html">Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preprocessing.html">Preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="training.html">Training</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Inference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#inference-datasets">Inference Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#composite-inference-datasets">Composite Inference Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-inference-dataset-objects-from-predefined-datasets">Creating inference dataset objects from predefined datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#inference-script">Inference script</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="polygonisation.html">Polygonisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="misc.html">Miscellaneous</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Main package:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="gim_cv.html">gim_cv package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">MAIIA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Inference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/inference.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="inference">
+<h1>Inference<a class="headerlink" href="#inference" title="Permalink to this headline"></a></h1>
+<p>The <code class="xref py py-mod docutils literal notranslate"><span class="pre">inference</span></code> module is responsible for providing classes which
+integrate datasets and preprocessing pipelines into a simple object which can be
+fed a <code class="docutils literal notranslate"><span class="pre">tf.keras</span></code> segmentation model which will run inference with the model’s
+<code class="docutils literal notranslate"><span class="pre">predict</span></code> method and write the results to disk in the form of <code class="docutils literal notranslate"><span class="pre">.tif</span></code> rasters.</p>
+<p>The main classes playing this role are <code class="xref py py-class docutils literal notranslate"><span class="pre">InferenceDataset</span></code> and
+<code class="xref py py-class docutils literal notranslate"><span class="pre">CompositeInferenceDataset</span></code>. These can be used standalaone
+(by specifying which image files to create from directly) or be created directly
+from a <code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code> object (comprised of RGB images).
+We will cover both of these cases in turn.</p>
+<p>For the very short version, look at <a class="reference internal" href="#load-inference-data"><span class="std std-ref">Creating inference dataset objects from predefined datasets</span></a>.</p>
+<div class="section" id="inference-datasets">
+<h2>Inference Datasets<a class="headerlink" href="#inference-datasets" title="Permalink to this headline"></a></h2>
+<p>An <code class="xref py py-class docutils literal notranslate"><span class="pre">InferenceDataset</span></code> converts <em>one</em> corresponding
+image file into preprocessed array of patches, facilitates running segmentation on
+these, and handles reassembling and writing of the results to a raster file.
+It accepts the following main arguments:</p>
+<ul class="simple">
+<li>Path to the image source file (ideally in <code class="docutils literal notranslate"><span class="pre">.tif</span></code> format)</li>
+<li>Path to the target mask file which will be written by the model (also <code class="docutils literal notranslate"><span class="pre">.tif</span></code>) - optional</li>
+<li>A function which, when called, creates a preprocessing pipeline for the image - optional</li>
+</ul>
+<p>There are also various options for controlling pruning functions to eliminate
+invalid arrays (such as empty arrays with all white or all black pixels). See the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">InferenceDataset</span></code> API documentation for more details.</p>
+<p>Once the <code class="xref py py-class docutils literal notranslate"><span class="pre">InferenceDataset</span></code> has been created, its
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">prepare()</span></code> method must be called (this will
+create an instance of the necessary preprocessing pipelines, then create the Dask
+task graph corresponding to loading the arrays from the source files and performing
+all of the preprocessing operations). Once the prepare method has been called the
+image patch dask array will be accessible as the attribute <code class="docutils literal notranslate"><span class="pre">X</span></code>.</p>
+<p>After this stage, the inference dataset object will have access to the method
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">schedule_inference()</span></code>,  which accepts a
+model and optionally a directory to write the output segmented rasters to (this
+is ignored if an explicit <code class="docutils literal notranslate"><span class="pre">mask_tar</span></code> is set). This will create the dask array
+<code class="docutils literal notranslate"><span class="pre">y</span></code> with the segmentation results (but not yet compute them). This array
+has a chunk size of 1 (patch) which is fixed to equal the inference batch size.</p>
+<p>Once this has been run with a provided model, the actual inference and writing of the
+results to disk in raster format can be triggered with the
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">write_mask_raster()</span></code> method. This will compute
+the segmentation mask patches, reassemble them into the input raster’s shape and
+write out to the target <code class="docutils literal notranslate"><span class="pre">.tif</span></code> file. It also accepts a boolean <code class="docutils literal notranslate"><span class="pre">overwrite</span></code>
+parameter which one can toggle to skip running inference for rasters already processed
+by this model (i.e. if the target file already exists).</p>
+<p>Here’s an example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">gim_cv.inference</span> <span class="kn">import</span> <span class="n">InferenceDataset</span>
+<span class="kn">from</span> <span class="nn">gim_cv.preprocessing</span> <span class="kn">import</span> <span class="n">get_image_inference_pipeline</span>
+
+<span class="c1"># create inference dataset</span>
+<span class="c1"># can either specify the output file path (mask_tar) directly here or omit it</span>
+<span class="c1"># if omitted, can pass instead &quot;output_directory&quot; to the &quot;schedule_inference&quot; method</span>
+<span class="c1"># this will borrow the name of the input raster and append the model name and uuid + . tif</span>
+<span class="n">ids</span> <span class="o">=</span> <span class="n">InferenceDataset</span><span class="p">(</span>
+    <span class="n">image_src</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;/path/to/my/img.tif&#39;</span><span class="p">),</span>
+    <span class="n">mask_tar</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;/path/to/output/mask.tif&#39;</span><span class="p">),</span>
+    <span class="n">image_pipeline_factory</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span>
+        <span class="n">get_image_inference_pipeline</span><span class="p">,</span>
+        <span class="n">inference_window_size</span><span class="o">=</span><span class="mi">1024</span>
+    <span class="p">)</span> <span class="c1"># example overriding default pipeline</span>
+<span class="p">)</span>
+<span class="c1"># extract arrays, create dask graph for preprocessing etc</span>
+<span class="n">ids</span><span class="o">.</span><span class="n">prepare</span><span class="p">()</span>
+<span class="c1"># build dask array for segmentation results by passing a model (e.g. a Segmentalist)</span>
+<span class="n">ids</span><span class="o">.</span><span class="n">schedule_inference</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">)</span> <span class="c1"># can specify &#39;output_directory&#39; here if &#39;mask_tar&#39; not fixed</span>
+<span class="c1"># calculate segmentation and write results</span>
+<span class="n">ids</span><span class="o">.</span><span class="n">write_mask_raster</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="composite-inference-datasets">
+<h2>Composite Inference Datasets<a class="headerlink" href="#composite-inference-datasets" title="Permalink to this headline"></a></h2>
+<p>Most of the time you will want to run inference with a model on multiple image
+files, from a <code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code> comprised of multiple files and/or
+from multiple <code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code> objects (for example, of different
+areas and/or the same areas over multiple years).</p>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">CompositeInferenceDataset</span></code> class is a thin wrapper for a set
+of individual <code class="xref py py-class docutils literal notranslate"><span class="pre">InferenceDataset</span></code> objects which allows an easy
+interface to run inference on many files at once.</p>
+<p>A composite inference dataset can be created by just adding inference datasets to
+each other. It has the same API as <code class="xref py py-class docutils literal notranslate"><span class="pre">InferenceDataset</span></code> (delegating
+to the constituents’ methods) except for the plural form
+<code class="xref py py-class docutils literal notranslate"><span class="pre">write_mask_rasters</span></code>.
+Here’s an example of creating one manually:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">gim_cv.inference</span> <span class="kn">import</span> <span class="n">InferenceDataset</span>
+
+<span class="c1"># skip providing mask_tar for each here and instead choose an &quot;output_directory&quot; below</span>
+<span class="n">ids1</span> <span class="o">=</span> <span class="n">InferenceDataset</span><span class="p">(</span><span class="n">image_src</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;/path/to/img1.tif&#39;</span><span class="p">))</span>
+<span class="n">ids2</span> <span class="o">=</span> <span class="n">InferenceDataset</span><span class="p">(</span><span class="n">image_src</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;/path/to/img2.tif&#39;</span><span class="p">))</span>
+
+<span class="c1"># create a CompositeInferenceDataset by adding together as many InferenceDatasets as you like</span>
+<span class="n">ids_all</span> <span class="o">=</span> <span class="n">ids1</span> <span class="o">+</span> <span class="n">ids2</span>
+
+<span class="c1"># create dask arrays</span>
+<span class="n">ids_all</span><span class="o">.</span><span class="n">prepare</span><span class="p">()</span>
+<span class="c1"># pass model with which to run inference. specify a directory for outputs here</span>
+<span class="n">ids</span><span class="o">.</span><span class="n">schedule_inference</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span> <span class="n">output_directory</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;/path/to/output_dir&#39;</span><span class="p">))</span>
+<span class="c1"># calculate segmentation and write results</span>
+<span class="n">ids</span><span class="o">.</span><span class="n">write_mask_rasters</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>A list of the constituent <code class="xref py py-class docutils literal notranslate"><span class="pre">InferenceDataset</span></code> objects are available
+via the <code class="docutils literal notranslate"><span class="pre">constituents</span></code> attribute.</p>
+</div>
+<div class="section" id="creating-inference-dataset-objects-from-predefined-datasets">
+<span id="load-inference-data"></span><h2>Creating inference dataset objects from predefined datasets<a class="headerlink" href="#creating-inference-dataset-objects-from-predefined-datasets" title="Permalink to this headline"></a></h2>
+<p>You can create a <code class="xref py py-class docutils literal notranslate"><span class="pre">CompositeInferenceDataset</span></code> directly from a
+<code class="xref py py-class docutils literal notranslate"><span class="pre">gim_cv.datasets.Dataset</span></code> object using the <code class="xref py py-meth docutils literal notranslate"><span class="pre">gim_cv.datasets.Dataset.load_inference_data()</span></code>
+method. This will construct a <code class="xref py py-class docutils literal notranslate"><span class="pre">InferenceDataset</span></code> from each image
+defined in the <code class="xref py py-class docutils literal notranslate"><span class="pre">gim_cv.datasets.Dataset</span></code>’s <code class="docutils literal notranslate"><span class="pre">image_paths</span></code> attribute, combine these
+and return a <code class="xref py py-class docutils literal notranslate"><span class="pre">CompositeInferenceDataset</span></code>.</p>
+<p>Like <code class="xref py py-meth docutils literal notranslate"><span class="pre">load_training_data()</span></code>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">load_inference_data()</span></code> accepts
+arguments which allow one to choose the pipeline and hyperparameters thereof (such as patch size
+and batch size - see <a class="reference internal" href="preprocessing.html"><span class="doc">Preprocessing</span></a> documentation). See its API documentation for more details.</p>
+<p>Here’s an example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">gim_cv.datasets</span> <span class="kn">import</span> <span class="n">get_dataset</span>
+
+
+<span class="c1"># create inference dataset</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">get_dataset</span><span class="p">(</span><span class="s1">&#39;phil_man_14_50cm_01&#39;</span><span class="p">)</span>
+<span class="c1"># say we want to resample to 0.5m^2 to use a model trained at this resolution</span>
+<span class="n">target_spatial_resolution</span> <span class="o">=</span> <span class="mf">.5</span>
+<span class="n">inference_window_size</span> <span class="o">=</span> <span class="mi">896</span>
+<span class="n">ids</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">load_inference_data</span><span class="p">(</span>
+    <span class="n">resample_factor</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">spatial_resolution</span> <span class="o">/</span> <span class="n">target_spatial_resolution</span><span class="p">,</span>
+    <span class="n">inference_window_size</span><span class="o">=</span><span class="n">inference_window_size</span>
+<span class="p">)</span>
+<span class="n">ids</span><span class="o">.</span><span class="n">prepare</span><span class="p">()</span>
+
+<span class="c1"># create a directory to store the results</span>
+<span class="n">output_path</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">image_paths</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;segmentation_outputs&#39;</span><span class="p">)</span>
+<span class="n">output_path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># prepare inference with model</span>
+<span class="n">ids</span><span class="o">.</span><span class="n">schedule_inference</span><span class="p">(</span>
+    <span class="n">model</span><span class="p">,</span>
+    <span class="n">output_directory</span><span class="o">=</span><span class="n">output_path</span>
+<span class="p">)</span>
+<span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;inference job scheduled&quot;</span><span class="p">)</span>
+
+<span class="c1"># run inference</span>
+<span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;generating mask rasters...&quot;</span><span class="p">)</span>
+<span class="n">ids</span><span class="o">.</span><span class="n">write_mask_rasters</span><span class="p">(</span><span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="inference-script">
+<h2>Inference script<a class="headerlink" href="#inference-script" title="Permalink to this headline"></a></h2>
+<p>For an example inference script using the <code class="docutils literal notranslate"><span class="pre">Segmentalist</span></code> model with datasets predefined
+in the <code class="xref py py-mod docutils literal notranslate"><span class="pre">gim_cv.datasets</span></code> module, you can check out the documentation, comments and
+help string for <code class="docutils literal notranslate"><span class="pre">gim-cv/bin/inference/run_inference_segmentalist.py</span></code>.</p>
+<p>This script requires one to select the training datasets and loss function used to train models,
+and locates the model in the trained models directory which matches these with the lowest
+validation loss. An inference patch size must be specified (default is currently 1024) along with
+an input dataset on which to run inference. The inference will then run and create mask rasters
+in a new subdirectory of the parent directory of the input dataset.</p>
+<p>Here’s an example use case, selecting the best model trained on the training datasets “phil_man_14_50cm_04” and
+“phil_man_14_50cm_05” with the weighted binary cross entropy loss function, and running inference with a patch size of 1024
+on the “phil_man_14_50cm_03” dataset:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python run_inference_segmentalist.py -td phil_man_14_50cm_04,phil_man_14_50cm_05 -d phil_man_14_50cm_03 -w 1024 -l wbce_adaptive
+</pre></div>
+</div>
+<p>The body of the script is very simple and relies on selecting the best trained model as described in
+<a class="reference internal" href="training.html#comparing-trained-models"><span class="std std-ref">Comparing trained models</span></a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df_trained_models</span> <span class="o">=</span> <span class="n">collate_run_data</span><span class="p">(</span><span class="n">models_dir</span><span class="p">,</span> <span class="n">model_name</span><span class="o">=</span><span class="s2">&quot;Segmentalist&quot;</span><span class="p">)</span>
+<span class="n">df_sorted</span> <span class="o">=</span> <span class="n">df_trained_models</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;lowest_val_loss&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s1">&#39;datasets == &quot;</span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">training_datasets</span><span class="si">}</span><span class="s1">&quot; and loss_fn == &quot;</span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">loss_fn</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
+<span class="p">)</span>
+<span class="n">best_row</span> <span class="o">=</span> <span class="n">df_sorted</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Segmentalist</span><span class="o">.</span><span class="n">load_from_metadata</span><span class="p">(</span><span class="n">best_row</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Followed by a loop to create inference datasets for each requested:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># run inference for each requested dataset sequentially</span>
+<span class="k">for</span> <span class="n">ds_tag</span> <span class="ow">in</span> <span class="n">ds_tags</span><span class="p">:</span>
+    <span class="n">inference_window_size</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">window_size</span> <span class="c1"># implicit here, will need to feed explicitly again to model</span>
+
+    <span class="c1"># create inference dataset</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">get_dataset</span><span class="p">(</span><span class="n">ds_tag</span><span class="p">)</span>
+    <span class="n">target_spatial_resolution</span> <span class="o">=</span> <span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">spatial_resolution</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">target_spatial_resolution</span> <span class="k">else</span> <span class="n">args</span><span class="o">.</span><span class="n">target_spatial_resolution</span><span class="p">)</span>
+    <span class="n">ids</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">load_inference_data</span><span class="p">(</span>
+        <span class="n">resample_factor</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">spatial_resolution</span> <span class="o">/</span> <span class="n">target_spatial_resolution</span><span class="p">,</span>
+        <span class="n">inference_window_size</span><span class="o">=</span><span class="n">inference_window_size</span>
+    <span class="p">)</span>
+    <span class="n">ids</span><span class="o">.</span><span class="n">prepare</span><span class="p">()</span>
+
+    <span class="c1"># save</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">output_dir</span><span class="p">:</span>
+        <span class="n">output_path</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">image_paths</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="n">Path</span><span class="p">(</span><span class="s1">&#39;seg_outputs&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">output_path</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">output_dir</span>
+    <span class="n">output_path</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># prepare inference with model</span>
+    <span class="n">ids</span><span class="o">.</span><span class="n">schedule_inference</span><span class="p">(</span>
+        <span class="n">model</span><span class="p">,</span>
+        <span class="n">output_directory</span><span class="o">=</span><span class="n">output_path</span>
+    <span class="p">)</span>
+
+    <span class="c1"># run inference</span>
+    <span class="n">ids</span><span class="o">.</span><span class="n">write_mask_rasters</span><span class="p">(</span><span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="training.html" class="btn btn-neutral float-left" title="Training" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="polygonisation.html" class="btn btn-neutral float-right" title="Polygonisation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
