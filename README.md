@@ -76,7 +76,7 @@ Habiendo iniciado la instancia de docker con:
 
         $ conda activate gim_cv_gpu
 
-3.  Instalar el paquete de Python con los scripts de reonocimiento de imagen:
+3.  Instalar el paquete de Python con los scripts de reconocimiento de imagen:
 
         $ pip install -e .
 
