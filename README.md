@@ -28,11 +28,11 @@ El proceso de instalación y puesta en marcha se describe a continuación. Es po
 
 (estos pasos son requeridos sólo una vez)
 
-1.  Clonar o descargar el contenido de este repositorio.
+1.  Clonar o descargar el contenido de este repositorio. 
 
 2.  Instalar [docker](https://docs.docker.com/engine/install/ubuntu/#installation-methods) y [nvidia-docker](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html). 
 
-Aclaración sobre *docker*: al instalar docker, es necesario cumplir con los [pasos de post-instalación](https://docs.docker.com/engine/install/linux-postinstall/).
+Aclaración sobre *docker*: al instalar docker, es necesario cumplir con los [pasos de post-instalación](https://docs.docker.com/engine/install/linux-postinstall/).  
 Aclaración sobre *nvidia-docker*: como indican los pre-requisitos, es necesario tener instalado NVIDIA driver. Se puede descargar [el instalador](https://www.nvidia.com/Download/index.aspx?lang=en-us) o seguir esta [guía](https://docs.nvidia.com/datacenter/tesla/tesla-installation-notes/index.html) para la instalación a través de paquete. 
 
 3.  Para asegurarse de que los containers *docker* puedan acceder a la GPU, editar o crear el archivo `/etc/docker/daemon.json` para que luzca así:
@@ -110,7 +110,7 @@ Habiendo iniciado la instancia de docker con:
 
         $ python bin/run_inference_segmentalist.py -td train_tif -d infer_tif -l dice_coeff_loss
 
-  Esto iniciará el de reconocimiento de áreas informales en la imagen provista, utilizando el último modelo entrenado. Al completar el proceso, quedará disponible en la carpeta PREDICTIONS un archivo raster georeferenciado con los límites de las áreas informales detectadas en la imagen.
+  Esto iniciará el reconocimiento de áreas informales en la imagen provista, utilizando el último modelo entrenado. Al completar el proceso, quedará disponible en la carpeta PREDICTIONS un archivo raster georeferenciado con los límites de las áreas informales detectadas en la imagen.
   
   
   
