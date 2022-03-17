@@ -88,9 +88,9 @@ Habiendo iniciado la instancia de docker con:
 
     -   Dejar en la carpeta `TRAIN/rasters/` uno o más archivos con imagen satelital de alta resolución de una zona con áreas informales previamente identificadas 
 
-    -   Dejar en la carpeta `TRAIN/masks/` un *shapefile* con los límites (identificados manualmente) de asentamientos informales en la zona cubierta por la imagen satelital.
+    -   Dejar en la carpeta `TRAIN/masks/` un archivo georreferenciado (en formato *shapefile* o *raster*) con los límites identificados manualmente de asentamientos informales en la zona cubierta por la imagen satelital.
 
-  En estas carpetas ya se encuentra un archivo raster, y uno de máscara (*shapefile* con áreas informales), que permiten realizar de inmediato una prueba del sistema.
+  Para poder practicar y como ejemplo, en estas carpetas ya se encuentran un archivo raster y uno de máscara (*shapefile* con áreas informales), que permiten realizar de inmediato una prueba del sistema.
 
 2.  Iniciar el algoritmo de entrenamiento. Desde la conexión a la imagen de docker, ejecutar:
 
