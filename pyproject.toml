@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "maiia"
+version = "0.1.0"
+description = ""
+authors = ["Damián Silvani <munshkr@gmail.com>"]
+license = "Apache-2.0"
+
+[tool.poetry.dependencies]
+python = ">=3.8,<3.11"
+pysatproc = "^0.1.9"
+unetseg = "^0.2.2"
+click = "^8.1.3"
+
+[tool.poetry.dev-dependencies]
+
+[tool.poetry.scripts]
+train = 'maiia.console.train:main'
+predict = 'maiia.console.predict:main'
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

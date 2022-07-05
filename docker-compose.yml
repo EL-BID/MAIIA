@@ -1,48 +1,31 @@
-# use docker_compose format version 3.x
 version: "3.5"
-# here we define our services, each of which has a corresponding image/container
 services:
-  # define the main service building_age which will run anaconda and hold the code
-  gim_cv:
-      # circumstances under which to restart container
-      restart: "no" # Options: on-failure, unless-stopped, always
-      # builds from the Dockerfile in this directory (build context)
-      build: .
-      # assign the built image a name(:tag)
-      image: gim_cv
-      # name the container (rather than default which is $(PWD)_image_N)
-      container_name: gim_cv_container
-      # use the nvidia runtime to access gpu (only if nvidia-docker installed!):
-      #runtime: "nvidia"
-      #environment:
-      #    - NVIDIA_VISIBLE_DEVICES=all
-      # pass in environment variables
-      # this is done by including the '.env' file, but can be specified here
-      # with a key with format environment: VAR(=VALUE)
-      # method to run continuously
-      command: tail -f /dev/null
-      # allows access to some of outside filesystem including host devices
-      # (webcam, gpu etc)
-      privileged: true
-      # forward ports - host:container (to allow jupyter notebooks)
-      ports:
-          # Jupyter notebook
-          - "8888:8888"
-          # Dask cluster
-          - "8787:8787"
-          # Tensorboard
-          - "8686:8686"
-      # network mode
-      #network_mode: "bridge"
-      # shared volumes
-      volumes:
-          # bind . on host to /home/root in container (allows editing code)
-          #- .:/home/root
-          - type: bind
-            source: .
-            target: /home/root
-            #volume:
-            #  nocopy: true
-      cap_add:
-        - SYS_ADMIN
-        - DAC_READ_SEARCH
+  maiia:
+    restart: "no"
+    build:
+      context: .
+      args:
+        base_image: tensorflow/tensorflow:2.8.0-gpu-jupyter
+    image: maiia
+    # use the nvidia runtime to access gpu (only if nvidia-docker installed!):
+    runtime: "nvidia"
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    # allows access to some of outside filesystem including host devices
+    # (webcam, gpu etc)
+    privileged: true
+    ports:
+      - "8888:8888"
+    # network mode
+    #network_mode: "bridge"
+    stdin_open: true
+    tty: true
+    #entrypoint: /bin/bash
+    # shared volumes
+    volumes:
+      - type: bind
+        source: ./notebooks
+        target: /tf/notebooks
+      - type: bind
+        source: ./data
+        target: /app/data
