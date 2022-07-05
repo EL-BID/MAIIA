@@ -1,63 +1,45 @@
-FROM nvidia/cuda:10.1-base
+ARG base_image=tensorflow/tensorflow:2.8.0-jupyter
 
-ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
-ENV PATH /opt/conda/bin:$PATH
+FROM $base_image AS app
 
-# install linux libraries
+WORKDIR /app
 
-# add-apt-repo
-#RUN apt-get install software-properties-common
-# latest gdal
-#RUN add-apt-repository ppa:ubuntugis/ppa
-RUN apt-get update --fix-missing && \
-    apt-get install -y software-properties-common wget bzip2 ca-certificates libglib2.0-0 libxext6 libsm6 libxrender1 git mercurial subversion build-essential vim && \
-    apt-get clean
-RUN add-apt-repository ppa:ubuntugis/ppa
-RUN apt-get install -y gdal-bin
-# install anaconda (python 3) https://repo.anaconda.com/archive/Anaconda3-2020.07-Linux-x86_64.sh
-RUN wget --quiet https://repo.anaconda.com/archive/Anaconda3-2020.07-Linux-x86_64.sh -O ~/anaconda.sh && \
-    /bin/bash ~/anaconda.sh -b -p /opt/conda && \
-    rm ~/anaconda.sh && \
-    ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
-    echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
-    echo "conda activate base" >> ~/.bashrc && \
-    find /opt/conda/ -follow -type f -name '*.a' -delete && \
-    find /opt/conda/ -follow -type f -name '*.js.map' -delete && \
-    /opt/conda/bin/conda clean -afy
+ENV PIP_DEFAULT_TIMEOUT=100 \
+  PIP_DISABLE_PIP_VERSION_CHECK=1 \
+  PIP_NO_CACHE_DIR=1 \
+  POETRY_VERSION=1.1.3
 
-# set the default directory in container
-WORKDIR /home/root/
+# Temporal workaround: Replace apt sources for NVIDIA and CUDA libraries and
+# their signing keys using official CUDA keyring.
+# Ref: https://github.com/NVIDIA/nvidia-docker/issues/1631
+RUN apt-key del 7fa2af80 \
+  && rm -f /etc/apt/sources.list.d/cuda.list /etc/apt/sources.list.d/nvidia-ml.list /etc/apt/sources.list.d/tensorRT.list \
+  && apt-get install -y --no-install-recommends wget \
+  && wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.0-1_all.deb \
+  && dpkg -i cuda-keyring_1.0-1_all.deb \
+  && rm cuda-keyring_1.0-1_all.deb
 
-# copy contents of this repo in (to the container WORKDIR)
-COPY envs/*.yml ./envs/
-# not necessary
-#COPY data ./data
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends \
+    gdal-bin \
+    libgdal-dev \
+    libgl1 \
+    libproj-dev \
+    libspatialindex-dev \
+    proj-bin \
+    python3-dev \
+    python3-venv \
+  && rm -rf /var/lib/apt/lists/*
 
-# Create a conda environment from the environment specification file
-RUN conda env create -f ./envs/env-static.yml
-# gim_cv_gpu_env.yml, env-static.yml
-# ... and for pytorch
-#RUN conda env create -f ./envs/pytorch_test_gpu_env.yml
+RUN pip install "poetry==$POETRY_VERSION"
 
-# get jupyter themes for nicer notebook colours
-RUN pip install jupyterthemes
+ADD pyproject.toml poetry.lock /app/
 
-# create dask config
-COPY .dask_config.yaml ~/.dask/config.yaml
+RUN poetry config virtualenvs.create false && \
+  poetry install --no-interaction --no-ansi
 
-# change themes and adjust cell width
-RUN jt -t chesterish -cellw 95%
+COPY . .
 
-# add an alias "jn" to launch a jupyter-notebook process on port 8888
-RUN echo 'alias jn="jupyter-notebook --ip=0.0.0.0 --no-browser --allow-root --port=8888"' >> ~/.bashrc
+RUN pip install .
 
-# ports for jupyter notebook
-EXPOSE 8888
-# dask cluster
-EXPOSE 8787
-# tensorboard
-EXPOSE 8686
-
-
-
-CMD [ "/bin/bash" ]
+ENV MPLCONFIGDIR=/tmp/.config/matplotlib

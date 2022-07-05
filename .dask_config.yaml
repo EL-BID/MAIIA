@@ -1,7 +1,0 @@
-distributed: 
-        comm:
-                timeouts:
-                        connect: 30s
-                        tcp: 30s
-                retry:
-                        count: 1
