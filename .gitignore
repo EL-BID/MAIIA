@@ -52,6 +52,4 @@ MANIFEST
 .venv*/
 .conda*/
 
-/data/
-
 .ipynb_checkpoints/
