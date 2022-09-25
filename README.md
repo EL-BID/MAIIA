@@ -38,15 +38,15 @@ aplicá-lo a novas imagens em apenas duas etapas.
 El algoritmo fue desarrollado con énfasis en su facilidad de implementación,
 para bajar las barreras de acceso a herramientas de inteligencia artificial (IA)
 y permitir que agencias de gobierno, investigadores y otros actores interesados
-puedan aplicarlo a sus propios casos de uso.
+puedan aplicarlo a sus propios casos de uso.  
 
-### [English] **¿Por qué la estamos compartiendo al público?**
+[English] **¿Por qué la estamos compartiendo al público?**  
 
 The algorithm was developed with an emphasis on ease of implementation, 
 to lower the barriers of access to artificial intelligence (AI) tools and allow 
-government agencies, researchers and other stakeholders to apply it to their own use cases.   
+government agencies, researchers and other stakeholders to apply it to their own use cases.     
 
-### [Portugues] **Por que estamos compartilhando isso com o público?**
+[Portugues] **Por que estamos compartilhando isso com o público?**  
 
 O algoritmo foi desenvolvido com ênfase na facilidade de implementação,
 para diminuir as barreiras de acesso às ferramentas de inteligência artificial (IA) 
@@ -496,9 +496,10 @@ Options:
 
         train
 
-   This will initiate the training of an informal area recognition model using the inputs provided.  Upon completion, a file in HDF5 (.h5) format of the trained model will be created inside the `data/models` folder.
+This will initiate the training of an informal area recognition model using the inputs provided.  Upon completion, a file in HDF5 (.h5) format of the trained model will be created inside the `data/models` folder.
 
-   It is possible to modify the training parameters with the `train` command. To see all options, run `train --help`. They are shown below:
+It is possible to modify the training parameters with the `train` command. To see all options, run `train --help`. They are shown below:
+
 
    ```
 Usage: train [OPTIONS]
@@ -523,7 +524,7 @@ Options:
   --help                         Show this message and exit.
    ```
 
-   For example, if you want to train for 100 epochs, with a *batch size* of 4, run:
+For example, if you want to train for 100 epochs, with a *batch size* of 4, run:
 
     train --epochs 100 --batch-size 4
 
@@ -547,7 +548,8 @@ Options:
 
    It is possible to modify the training parameters with the `predict` command. To see all options, run `predict --help`. They are shown below:
 
-   ```
+
+```
 Usage: predict [OPTIONS]
 
 Options:
@@ -565,9 +567,9 @@ Options:
   --temp-dir TEXT           Path to temporary directory, which will contain
                             extracted chips
   --help                    Show this message and exit.
-   ```
+```
 
-   For example, if you want to predict and filter by a threshold of 0.3 and minimum area of 1000m run:
+For example, if you want to predict and filter by a threshold of 0.3 and minimum area of 1000m run:
 
     predict --threshold 0.3 --min-area 1000
 
@@ -596,7 +598,8 @@ Options:
 
    É possível modificar os parâmetros de treinamento com o comando "treinamento". Para ver todas as opções, execute `train --help'. Eles são mostrados abaixo:
 
-   ```
+
+```
 Usage: train [OPTIONS]
 
 Options:
@@ -617,9 +620,10 @@ Options:
   --temp-dir TEXT                Path to temporary directory, which will
                                  contain extracted chips
   --help                         Show this message and exit.
-   ```
+   
+```
 
-   Por exemplo, se você quiser treinar para 100 épocas, com um *batch tamanho* de 4, correr:
+Por exemplo, se você quiser treinar para 100 épocas, com um *batch tamanho* de 4, correr:
 
     train --epochs 100 --batch-size 4
 
@@ -642,7 +646,8 @@ Options:
 
    É possível modificar os parâmetros de treinamento com o comando `predict`. Para ver todas as opções, execute `predict --help'. Estes são mostrados abaixo:
 
-   ```
+
+```
 Usage: predict [OPTIONS]
 
 Options:
@@ -660,9 +665,10 @@ Options:
   --temp-dir TEXT           Path to temporary directory, which will contain
                             extracted chips
   --help                    Show this message and exit.
-   ```
+```
 
-   Por exemplo, se você quiser prever e filtrar por um limiar de 0,3 e uma área mínima de 1000m de execução:
+
+Por exemplo, se você quiser prever e filtrar por um limiar de 0,3 e uma área mínima de 1000m de execução:
 
     predict --threshold 0.3 --min-area 1000
 
