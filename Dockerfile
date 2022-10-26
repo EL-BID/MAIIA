@@ -7,7 +7,7 @@ WORKDIR /app
 ENV PIP_DEFAULT_TIMEOUT=100 \
   PIP_DISABLE_PIP_VERSION_CHECK=1 \
   PIP_NO_CACHE_DIR=1 \
-  POETRY_VERSION=1.1.3
+  POETRY_VERSION=1.1.15
 
 # Temporal workaround: Replace apt sources for NVIDIA and CUDA libraries and
 # their signing keys using official CUDA keyring.
