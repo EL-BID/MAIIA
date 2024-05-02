@@ -15,7 +15,7 @@ nuevas en sólo dos pasos.
 ### [English] **What is it?**
 
 MAIIA is an algorithm that allows the automated mapping of the 
-location of informal urban settlements by informal urban settlements through 
+location of informal urban settlements through 
 the analysis of satellite images.
 To facilitate its implementation, it is distributed via a pre-configured 
 operating system image (via [Docker] (https://www.docker.com/)), together 
@@ -25,8 +25,7 @@ and applying it to new images in only two steps.
 ### [Portugues] **¿Qué es?**
 
 MAIIA é um algoritmo que permite o mapeamento automatizado da 
-localização de aglomerados urbanos informais por aglomerados urbanos informais 
-através da análise de imagens de satélite.
+localização de aglomerados urbanos informais através da análise de imagens de satélite.
 Para facilitar a sua implementação, é distribuído através de uma imagem 
 pré-configurada do sistema operativo (via [Docker]()), juntamente com 
 scripts para treinar um scripts que permitem treinar um modelo de detecção e 
