@@ -19,7 +19,7 @@ location of informal urban settlements through
 the analysis of satellite images.
 To facilitate its implementation, it is distributed via a pre-configured 
 operating system image (via [Docker] (https://www.docker.com/)), together 
-with scripts to train a model scripts that allow training a detection model 
+with scripts that allow training a detection model 
 and applying it to new images in only two steps. 
 
 ### [Portugues] **¿Qué es?**
@@ -27,8 +27,7 @@ and applying it to new images in only two steps.
 MAIIA é um algoritmo que permite o mapeamento automatizado da 
 localização de aglomerados urbanos informais através da análise de imagens de satélite.
 Para facilitar a sua implementação, é distribuído através de uma imagem 
-pré-configurada do sistema operativo (via [Docker]()), juntamente com 
-scripts para treinar um scripts que permitem treinar um modelo de detecção e 
+pré-configurada do sistema operativo (via [Docker]()), juntamente com scripts que permitem treinar um modelo de detecção e 
 aplicá-lo a novas imagens em apenas duas etapas.  
 
 
@@ -49,8 +48,8 @@ government agencies, researchers and other stakeholders to apply it to their own
 
 O algoritmo foi desenvolvido com ênfase na facilidade de implementação,
 para diminuir as barreiras de acesso às ferramentas de inteligência artificial (IA) 
-e permitir que agências governamentais, pesquisadores e outros partes interessadas
- a apliquem em seus próprios casos de uso.
+e permitir que agências governamentais, pesquisadores e outros partes interessadas 
+a apliquem em seus próprios casos de uso.
 
 ## **¿Cómo se usa?**
 
