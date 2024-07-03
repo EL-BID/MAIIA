@@ -718,16 +718,16 @@ Ao inferir, você pode reduzir o parâmetro "tamanho da janela" (que por padrão
 
 Si se realizan cambios en la implementación interna de MAIIA (o se actualiza el
 código desde el repositorio de git), es necesario construir la imagen de Docker
-nuevamente, ejecutando el comando ``` docker compose build```, como fue descripto
+nuevamente, ejecutando el comando ```docker compose build```, como fue descripto
 en la sección de *Instalación*.
 
 #### [English] Upgrades and Development
 
-If changes are made to the internal MAIIA implementation (or code is updated from the git repository), it is necessary to build the Docker image again, by running the ```` docker compose build``` command, as described in the *Installation* section.
+If changes are made to the internal MAIIA implementation (or code is updated from the git repository), it is necessary to build the Docker image again, by running the ```docker compose build``` command, as described in the *Installation* section.
 
 #### [Portugues] Atualizações e Desenvolvimento
 
-Se você fizer alterações na implementação interna do MAIIA (ou atualizar o código do repositório git), você precisa construir a imagem do Docker novamente, executando o comando ```docker compose build'', como descrito na seção *Instalação*.
+Se você fizer alterações na implementação interna do MAIIA (ou atualizar o código do repositório git), você precisa construir a imagem do Docker novamente, executando o comando ```docker compose build```, como descrito na seção *Instalação*.
 
 ## Contribuciones
 
