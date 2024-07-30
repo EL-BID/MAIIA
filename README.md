@@ -22,7 +22,7 @@ operating system image (via [Docker] (https://www.docker.com/)), together
 with scripts that allow training a detection model 
 and applying it to new images in only two steps. 
 
-### [Portugues] **¿Qué es?**
+### [Portugues] **¿O que é?**
 
 MAIIA é um algoritmo que permite o mapeamento automatizado da 
 localização de aglomerados urbanos informais através da análise de imagens de satélite.
