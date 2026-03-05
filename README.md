@@ -748,18 +748,12 @@ Relatórios de erros e *pull requests* podem ser relatados na [página de ediç�
 
 
 ## Licencia
-
-El código está licenciado bajo Apache 2.0. Refiérase a
 [LICENSE.txt](LICENSE.txt).
 
 ### [English] License
-
-The code is licensed under Apache 2.0. Refer to
 [LICENSE.txt](LICENSE.txt).
 
 ### [Portugues] Licença
-
-O código é licenciado sob o Apache 2.0. Consulte
 [LICENSE.txt](LICENSE.txt).
 
 
